@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="La Villa Roméo — Cinq havres de paix au cœur du Golfe de Saint-Tropez. Location de vacances avec piscine et spa à Sainte-Maxime.">
+<meta name="theme-color" content="#1C1612">
+<title>La Villa Roméo · Sainte-Maxime · Golfe de Saint-Tropez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET & TOKENS
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sand:           #F7F2EA;
+  --sand-mid:       #EDE5D5;
+  --sand-deep:      #DDD0BB;
+  --terracotta:     #C4805A;
+  --terracotta-lt:  #E8B99A;
+  --terracotta-dk:  #8C4F2F;
+  --sage:           #8BA888;
+  --sage-lt:        #C5D9C2;
+  --sage-dk:        #4A6E47;
+  --ink:            #1C1612;
+  --ink-soft:       #3D342A;
+  --mist:           #796B5C;
+  --gold:           #C9A96E;
+  --gold-lt:        #E8D5B0;
+  --white:          #FDFAF5;
+  --r-sm: 6px; --r-md: 14px; --r-lg: 24px; --r-xl: 40px;
+  --ease: 260ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --nav-h: 68px;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--sand);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a  { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE ROUTER — only one page shown at a time
+═══════════════════════════════════════════════════════════ */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: var(--nav-h);
+  padding: 0 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(247,242,234,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(196,128,90,0.12);
+  transition: background var(--ease);
+}
+nav.scrolled { background: rgba(247,242,234,0.98); box-shadow: 0 2px 20px rgba(28,22,18,0.07); }
+
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); }
+.nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 400; color: var(--ink); letter-spacing: 0.04em; line-height: 1.1; }
+.nav-logo-text span { display: block; font-size: 10px; font-family: 'Jost', sans-serif; font-weight: 300; letter-spacing: 0.18em; color: var(--mist); text-transform: uppercase; }
+
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mist); position: relative; transition: color var(--ease); padding: 4px 0; }
+.nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--terracotta); transition: width var(--ease); }
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--terracotta); }
+.nav-links a.active::after { width: 100%; }
+.nav-cta { padding: 9px 20px; background: var(--terracotta); color: var(--white) !important; border-radius: var(--r-xl); font-weight: 500 !important; transition: background var(--ease), transform var(--ease) !important; }
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--terracotta-dk) !important; transform: translateY(-1px); }
+
+/* Hamburger */
+.nav-burger { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 8px; transition: background var(--ease); }
+.nav-burger:hover { background: var(--sand-mid); }
+.nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: all var(--ease); }
+.nav-burger span + span { margin-top: 5px; }
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile drawer */
+.nav-drawer {
+  position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; z-index: 190;
+  background: var(--white);
+  padding: 32px 7vw 48px;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.nav-drawer.open { transform: translateX(0); }
+.nav-drawer a { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--ink); padding: 14px 0; border-bottom: 1px solid var(--sand-mid); display: block; transition: color var(--ease); }
+.nav-drawer a:hover { color: var(--terracotta); }
+.nav-drawer a.active { color: var(--terracotta); }
+.nav-drawer .drawer-cta { margin-top: 24px; display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: var(--terracotta); color: var(--white); border-radius: var(--r-xl); font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   PROMO BANNER
+═══════════════════════════════════════════════════════════ */
+.promo-banner {
+  background: var(--ink); color: var(--white);
+  text-align: center; padding: 13px 20px;
+  font-size: 13px; font-weight: 300; letter-spacing: 0.04em;
+  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+  margin-top: var(--nav-h);
+}
+.promo-badge { background: var(--gold); color: var(--ink); font-weight: 500; font-size: 11px; padding: 4px 12px; border-radius: var(--r-xl); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+
+/* ═══════════════════════════════════════════════════════════
+   SHARED LAYOUT HELPERS
+═══════════════════════════════════════════════════════════ */
+.pt-nav { padding-top: var(--nav-h); }
+.section { padding: 80px 7vw; }
+.section-sm { padding: 56px 7vw; }
+.narrow { max-width: 1120px; margin: 0 auto; }
+
+.label {
+  font-size: 11px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--terracotta); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.label::before { content: ''; width: 24px; height: 1px; background: var(--terracotta); }
+.label-gold { color: var(--gold); }
+.label-gold::before { background: var(--gold); }
+
+.heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 300; line-height: 1.12; letter-spacing: -0.01em;
+  color: var(--ink); margin-bottom: 14px;
+}
+.heading-white { color: var(--white); }
+.heading em { font-style: italic; color: var(--terracotta-lt); }
+
+.desc { font-size: 15px; font-weight: 300; color: var(--mist); line-height: 1.75; max-width: 580px; }
+.desc-center { text-align: center; margin: 0 auto; }
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 30px; border-radius: var(--r-xl);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
+  transition: all var(--ease); cursor: pointer; white-space: nowrap;
+}
+.btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.btn-primary { background: var(--terracotta); color: var(--white); }
+.btn-primary:hover { background: var(--terracotta-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,128,90,0.28); }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--sand-deep); }
+.btn-outline:hover { border-color: var(--terracotta); color: var(--terracotta); transform: translateY(-2px); }
+.btn-outline-white { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+.btn-outline-white:hover { border-color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+.btn-gold { background: var(--gold); color: var(--ink); }
+.btn-gold:hover { background: #b8924a; transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════════ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes heroZoom { to { transform: scale(1); } }
+@keyframes marqueeL { to { transform: translateX(-50%); } }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   HERO (shared)
+═══════════════════════════════════════════════════════════ */
+.hero {
+  position: relative; height: 88vh; min-height: 560px;
+  overflow: hidden; display: flex; align-items: flex-end;
+}
+.hero-sm { height: 52vh; min-height: 360px; }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transform: scale(1.04); animation: heroZoom 9s ease forwards; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,22,18,0.78) 0%, rgba(28,22,18,0.24) 55%, rgba(28,22,18,0.06) 100%); }
+.hero-content { position: relative; z-index: 2; padding: 0 7vw 72px; color: var(--white); animation: fadeUp 1s ease both; animation-delay: 0.25s; }
+.hero-eyebrow { font-size: 11px; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.hero-eyebrow::before { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--gold-lt); }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(38px, 6vw, 82px); font-weight: 300; line-height: 1.05; letter-spacing: -0.01em; max-width: 800px; margin-bottom: 20px; }
+.hero h1 em { font-style: italic; color: var(--terracotta-lt); }
+.hero-sub { font-size: 15px; font-weight: 300; color: rgba(253,250,245,0.75); letter-spacing: 0.03em; max-width: 460px; }
+.hero-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+.hero-badge { background: rgba(253,250,245,0.1); border: 1px solid rgba(253,250,245,0.2); backdrop-filter: blur(10px); color: var(--white); font-size: 12px; font-weight: 300; letter-spacing: 0.08em; padding: 7px 16px; border-radius: var(--r-xl); }
+.hero-actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+
+/* Scroll indicator */
+.scroll-hint { position: absolute; bottom: 32px; right: 7vw; z-index: 2; display: flex; align-items: center; gap: 10px; color: rgba(253,250,245,0.5); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; animation: fadeUp 1s ease both; animation-delay: 0.8s; }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, rgba(253,250,245,0.4)); }
+
+/* ═══════════════════════════════════════════════════════════
+   GALLERY STRIP
+═══════════════════════════════════════════════════════════ */
+.gallery-strip { display: grid; grid-template-columns: repeat(5, 1fr); height: 220px; }
+.gs-item { overflow: hidden; position: relative; }
+.gs-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+.gs-item:hover img { transform: scale(1.1); }
+.gs-item::after { content: ''; position: absolute; inset: 0; background: rgba(28,22,18,0); transition: background 0.3s ease; }
+.gs-item:hover::after { background: rgba(28,22,18,0.18); }
+
+/* ═══════════════════════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════════════════════ */
+.stats-bar { background: var(--ink); padding: 40px 7vw; }
+.stats-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.stat-item { text-align: center; padding: 24px 0; position: relative; }
+.stat-item + .stat-item::before { content: ''; position: absolute; left: 0; top: 20%; height: 60%; width: 1px; background: rgba(255,255,255,0.08); }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(253,250,245,0.45); }
+
+/* ═══════════════════════════════════════════════════════════
+   VILLA CARDS GRID
+═══════════════════════════════════════════════════════════ */
+.villas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.villa-card {
+  background: var(--white); border-radius: var(--r-lg); overflow: hidden;
+  border: 1.5px solid transparent; transition: border-color var(--ease), transform var(--ease), box-shadow var(--ease);
+  cursor: pointer;
+}
+.villa-card:hover { border-color: var(--sand-deep); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(28,22,18,0.08); }
+.vc-photo { aspect-ratio: 4/3; overflow: hidden; position: relative; }
+.vc-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+.villa-card:hover .vc-photo img { transform: scale(1.06); }
+.vc-badge { position: absolute; top: 14px; left: 14px; background: var(--white); color: var(--ink); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: var(--r-xl); }
+.vc-color { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; }
+.vc-body { padding: 24px; }
+.vc-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--ink); margin-bottom: 4px; }
+.vc-sub { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px; font-weight: 400; }
+.vc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.vc-chip { padding: 5px 12px; background: var(--sand); border-radius: var(--r-xl); font-size: 12px; color: var(--ink-soft); display: flex; align-items: center; gap: 5px; }
+.vc-chip svg { width: 12px; height: 12px; stroke: var(--terracotta); fill: none; flex-shrink: 0; }
+.vc-price { display: flex; align-items: baseline; gap: 6px; }
+.vc-price-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); }
+.vc-price-from { font-size: 11px; color: var(--mist); }
+
+/* ═══════════════════════════════════════════════════════════
+   SERVICES GRID
+═══════════════════════════════════════════════════════════ */
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.service-card {
+  background: var(--white); border-radius: var(--r-lg); padding: 32px;
+  border: 1.5px solid transparent; transition: all var(--ease); position: relative; overflow: hidden;
+}
+.service-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--terracotta); transform: scaleX(0); transition: transform var(--ease); transform-origin: left; }
+.service-card:hover { border-color: var(--sand-deep); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(28,22,18,0.07); }
+.service-card:hover::after { transform: scaleX(1); }
+.sc-icon { width: 48px; height: 48px; background: var(--sand); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.sc-icon svg { width: 22px; height: 22px; stroke: var(--terracotta); fill: none; stroke-width: 1.5; }
+.sc-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 10px; }
+.sc-desc { font-size: 14px; font-weight: 300; color: var(--mist); line-height: 1.7; }
+.sc-price { margin-top: 16px; font-size: 13px; color: var(--terracotta); font-weight: 400; }
+
+/* ═══════════════════════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════════════════════ */
+.testimonials-section { background: var(--ink); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testi-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-lg); padding: 32px; transition: border-color var(--ease);
+}
+.testi-card:hover { border-color: rgba(201,169,110,0.3); }
+.testi-stars { display: flex; gap: 4px; margin-bottom: 16px; }
+.testi-stars span { color: var(--gold); font-size: 14px; }
+.testi-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 300; font-style: italic; color: rgba(253,250,245,0.85); line-height: 1.65; margin-bottom: 20px; }
+.testi-author { font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+
+/* ═══════════════════════════════════════════════════════════
+   TARIF SYSTEM
+═══════════════════════════════════════════════════════════ */
+.villa-tabs { display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+.villa-tab {
+  padding: 10px 22px; border-radius: var(--r-xl); border: 1.5px solid var(--sand-mid);
+  background: transparent; font-family: 'Cormorant Garamond', serif; font-size: 16px;
+  font-weight: 400; color: var(--mist); cursor: pointer; transition: all var(--ease); letter-spacing: 0.03em;
+}
+.villa-tab:hover { border-color: var(--terracotta); color: var(--terracotta); }
+.villa-tab.active { background: var(--terracotta); border-color: var(--terracotta); color: var(--white); }
+
+.villa-panel { display: none; }
+.villa-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.vp-photo { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4/3; position: relative; }
+.vp-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.vp-photo:hover img { transform: scale(1.04); }
+.vp-photo-badge { position: absolute; top: 14px; left: 14px; background: var(--white); color: var(--ink); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: var(--r-xl); }
+.vp-name { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); margin-bottom: 6px; }
+.vp-sub { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 22px; }
+.amenity-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.amenity-chip { padding: 6px 14px; background: var(--sand); border-radius: var(--r-xl); font-size: 13px; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; }
+.amenity-chip svg { width: 13px; height: 13px; stroke: var(--terracotta); fill: none; flex-shrink: 0; }
+
+.tarif-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 28px; }
+.tarif-card {
+  background: var(--sand); border-radius: var(--r-md); padding: 20px 18px;
+  border: 1.5px solid transparent; transition: border-color var(--ease), transform var(--ease);
+  position: relative; overflow: hidden;
+}
+.tarif-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--tc, var(--gold)); }
+.tarif-card:hover { border-color: var(--tc, var(--gold)); transform: translateY(-2px); }
+.tarif-card[data-s="th"] { --tc: var(--terracotta); }
+.tarif-card[data-s="h"]  { --tc: var(--gold); }
+.tarif-card[data-s="m"]  { --tc: var(--sage); }
+.tarif-card[data-s="b"]  { --tc: var(--sage-dk); }
+.tc-season { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tc, var(--gold)); margin-bottom: 8px; }
+.tc-price { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; line-height: 1; color: var(--ink); }
+.tc-price sup { font-size: 14px; vertical-align: super; font-family: 'Jost'; font-weight: 300; }
+.tc-unit { font-size: 11px; color: var(--mist); margin-top: 2px; }
+
+/* ═══════════════════════════════════════════════════════════
+   CONDITIONS
+═══════════════════════════════════════════════════════════ */
+.cond-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.cond-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.cond-list li { display: flex; gap: 14px; font-size: 14px; font-weight: 300; line-height: 1.6; color: rgba(253,250,245,0.82); }
+.cond-icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
+.cond-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+.cond-aside { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-lg); padding: 36px; }
+.promo-card { background: rgba(201,169,110,0.12); border: 1px solid rgba(201,169,110,0.28); border-radius: var(--r-md); padding: 28px; margin-top: 24px; text-align: center; }
+.promo-pct { font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+.promo-card p { font-size: 14px; color: rgba(253,250,245,0.65); font-weight: 300; }
+.promo-card strong { color: var(--gold-lt); font-weight: 400; }
+
+/* ═══════════════════════════════════════════════════════════
+   PLANNING TABLE
+═══════════════════════════════════════════════════════════ */
+.planning-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 20px; }
+.planning-wrap { background: var(--white); border-radius: var(--r-lg); overflow: hidden; border: 1.5px solid var(--sand-mid); overflow-x: auto; }
+.planning-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 560px; }
+.planning-table th { background: var(--sand); padding: 13px 16px; text-align: left; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist); border-bottom: 1.5px solid var(--sand-mid); }
+.planning-table td { padding: 12px 16px; border-bottom: 1px solid var(--sand); vertical-align: middle; }
+.planning-table tr:last-child td { border-bottom: none; }
+.planning-table tr:hover td { background: var(--sand); }
+.villa-name-cell { font-family: 'Cormorant Garamond', serif; font-size: 16px; display: flex; align-items: center; gap: 10px; }
+.villa-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.status-pill { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: var(--r-xl); font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; white-space: nowrap; }
+.sp-ok   { background: rgba(139,168,136,0.15); color: var(--sage-dk); }
+.sp-few  { background: rgba(201,169,110,0.15); color: #7a5b1a; }
+.sp-ask  { background: rgba(196,128,90,0.12); color: var(--terracotta-dk); }
+.planning-legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 18px; }
+.leg-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--mist); }
+.leg-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+/* ═══════════════════════════════════════════════════════════
+   CTA BAND
+═══════════════════════════════════════════════════════════ */
+.cta-band { position: relative; overflow: hidden; padding: 96px 7vw; }
+.cta-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.1; }
+.cta-inner { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; text-align: center; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+.contact-chips { display: flex; gap: 14px; justify-content: center; margin-top: 22px; flex-wrap: wrap; }
+.contact-chip { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 300; color: var(--mist); transition: color var(--ease); }
+.contact-chip:hover { color: var(--terracotta); }
+.contact-chip svg { width: 15px; height: 15px; stroke: var(--terracotta); fill: none; stroke-width: 1.5; }
+
+/* ═══════════════════════════════════════════════════════════
+   CONTACT PAGE
+═══════════════════════════════════════════════════════════ */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
+.contact-info { }
+.contact-info-block { margin-top: 40px; display: flex; flex-direction: column; gap: 24px; }
+.ci-item { display: flex; gap: 16px; align-items: flex-start; }
+.ci-icon { width: 44px; height: 44px; background: var(--sand); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ci-icon svg { width: 20px; height: 20px; stroke: var(--terracotta); fill: none; stroke-width: 1.5; }
+.ci-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 3px; }
+.ci-value { font-size: 15px; font-weight: 300; color: var(--ink); line-height: 1.5; }
+.ci-value a { color: var(--terracotta); transition: color var(--ease); }
+.ci-value a:hover { color: var(--terracotta-dk); }
+
+.contact-form-wrap { background: var(--white); border-radius: var(--r-lg); padding: 40px; border: 1.5px solid var(--sand-mid); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-full { grid-column: 1 / -1; }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-group label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mist); }
+.field-group input, .field-group select, .field-group textarea {
+  width: 100%; padding: 12px 16px; background: var(--sand); border: 1.5px solid transparent;
+  border-radius: var(--r-sm); font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300;
+  color: var(--ink); outline: none; transition: border-color var(--ease), background var(--ease);
+  -webkit-appearance: none;
+}
+.field-group input:focus, .field-group select:focus, .field-group textarea:focus { background: var(--white); border-color: var(--terracotta); }
+.field-group textarea { resize: vertical; min-height: 120px; }
+.form-success { display: none; text-align: center; padding: 40px 20px; }
+.form-success-icon { font-size: 48px; margin-bottom: 16px; }
+.form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+.form-success p { font-size: 14px; color: var(--mist); }
+
+/* ═══════════════════════════════════════════════════════════
+   À VOIR / FAIRE
+═══════════════════════════════════════════════════════════ */
+.activities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.activity-card { background: var(--white); border-radius: var(--r-lg); overflow: hidden; transition: transform var(--ease), box-shadow var(--ease); }
+.activity-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(28,22,18,0.08); }
+.ac-photo { aspect-ratio: 16/10; overflow: hidden; position: relative; }
+.ac-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+.activity-card:hover .ac-photo img { transform: scale(1.08); }
+.ac-cat { position: absolute; top: 14px; left: 14px; background: var(--white); color: var(--terracotta); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 12px; border-radius: var(--r-xl); }
+.ac-body { padding: 22px; }
+.ac-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
+.ac-desc { font-size: 13px; font-weight: 300; color: var(--mist); line-height: 1.65; }
+.ac-dist { margin-top: 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terracotta); display: flex; align-items: center; gap: 6px; }
+.ac-dist svg { width: 12px; height: 12px; stroke: var(--terracotta); fill: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURES STRIP (homepage)
+═══════════════════════════════════════════════════════════ */
+.features-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.feat-item { padding: 40px 32px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; border-right: 1px solid var(--sand-mid); }
+.feat-item:last-child { border-right: none; }
+.feat-icon { width: 52px; height: 52px; background: rgba(196,128,90,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.feat-icon svg { width: 22px; height: 22px; stroke: var(--terracotta); fill: none; stroke-width: 1.5; }
+.feat-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--ink); }
+.feat-desc { font-size: 13px; font-weight: 300; color: var(--mist); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+footer { background: var(--ink); padding: 60px 7vw 32px; }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-brand .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--white); letter-spacing: 0.04em; margin-bottom: 4px; }
+.footer-brand .brand-sub { font-size: 11px; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(253,250,245,0.4); margin-bottom: 14px; }
+.footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: rgba(253,250,245,0.45); line-height: 1.5; margin-bottom: 22px; }
+.footer-socials { display: flex; gap: 10px; }
+.footer-social { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: all var(--ease); }
+.footer-social:hover { border-color: var(--gold); background: rgba(201,169,110,0.12); }
+.footer-social svg { width: 15px; height: 15px; stroke: rgba(253,250,245,0.55); fill: none; stroke-width: 1.5; }
+.footer-col h4 { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a { font-size: 14px; font-weight: 300; color: rgba(253,250,245,0.55); transition: color var(--ease); }
+.footer-col ul a:hover { color: var(--white); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; font-weight: 300; color: rgba(253,250,245,0.4); }
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE TRANSITION
+═══════════════════════════════════════════════════════════ */
+.page-transition { position: fixed; inset: 0; background: var(--ink); z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
+.page-transition.active { opacity: 1; pointer-events: all; }
+
+/* ═══════════════════════════════════════════════════════════
+   MARQUEE BAND
+═══════════════════════════════════════════════════════════ */
+.marquee-band { background: var(--terracotta); padding: 14px 0; overflow: hidden; }
+.marquee-track { display: flex; gap: 0; animation: marqueeL 22s linear infinite; width: max-content; }
+.marquee-track span { white-space: nowrap; font-size: 12px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(253,250,245,0.85); padding: 0 32px; }
+.marquee-track .dot { color: var(--gold-lt); }
+
+/* ═══════════════════════════════════════════════════════════
+   ABOUT SPLIT
+═══════════════════════════════════════════════════════════ */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.about-photo-stack { position: relative; }
+.about-photo-main { border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 3/4; }
+.about-photo-main img { width: 100%; height: 100%; object-fit: cover; }
+.about-photo-small { position: absolute; bottom: -28px; right: -28px; width: 48%; border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4/3; border: 4px solid var(--white); box-shadow: 0 12px 32px rgba(28,22,18,0.15); }
+.about-photo-small img { width: 100%; height: 100%; object-fit: cover; }
+.about-award { position: absolute; top: 28px; left: -20px; background: var(--ink); color: var(--gold); border-radius: var(--r-md); padding: 16px 20px; text-align: center; box-shadow: 0 8px 24px rgba(28,22,18,0.2); }
+.award-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; line-height: 1; }
+.award-text { font-size: 10px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(253,250,245,0.55); margin-top: 4px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .villas-grid { grid-template-columns: 1fr 1fr; }
+  .activities-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-photo-stack { max-width: 480px; margin: 0 auto; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  :root { --nav-h: 62px; }
+  .nav-links { display: none !important; }
+  .nav-burger { display: flex; }
+  .hero h1 { font-size: clamp(34px, 8vw, 56px); }
+  .hero-content { padding: 0 5vw 56px; }
+  .villas-grid { grid-template-columns: 1fr; }
+  .activities-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .features-strip { grid-template-columns: 1fr 1fr; }
+  .cond-grid { grid-template-columns: 1fr; gap: 40px; }
+  .villa-panel.active { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .gallery-strip { grid-template-columns: 1fr 1fr 1fr; height: 180px; }
+  .section { padding: 56px 5vw; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .about-photo-small { right: -10px; bottom: -10px; }
+}
+
+@media (max-width: 520px) {
+  .features-strip { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .gallery-strip { grid-template-columns: 1fr 1fr; height: 160px; }
+  .hero-sm { height: 44vh; min-height: 300px; }
+  .contact-form-wrap { padding: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE TRANSITION CURTAIN -->
+<div class="page-transition" id="curtain"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════════════════ -->
+<nav id="main-nav" aria-label="Navigation principale">
+  <a href="#" class="nav-logo" data-page="home" onclick="navigate('home'); return false;" aria-label="La Villa Roméo – Accueil">
+    <img src="https://static.wixstatic.com/media/8de39c_9a1e1ac9ec3143b8a31ed565fd9d8d23~mv2.jpg/v1/fill/w_87,h_90,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Logo.jpg" alt="Logo La Villa Roméo">
+    <div class="nav-logo-text">La Villa Roméo<span>Sainte-Maxime · Var</span></div>
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="#" data-page="home" onclick="navigate('home'); return false;" class="active">Accueil</a></li>
+    <li><a href="#" data-page="maisons" onclick="navigate('maisons'); return false;">Nos maisons</a></li>
+    <li><a href="#" data-page="services" onclick="navigate('services'); return false;">Services</a></li>
+    <li><a href="#" data-page="tarifs" onclick="navigate('tarifs'); return false;">Tarifs</a></li>
+    <li><a href="#" data-page="explorer" onclick="navigate('explorer'); return false;">Explorer</a></li>
+    <li><a href="#" data-page="contact" onclick="navigate('contact'); return false;" class="nav-cta">Réserver</a></li>
+  </ul>
+  <button class="nav-burger" id="burger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="nav-drawer" id="drawer" role="dialog" aria-label="Menu mobile">
+  <a href="#" data-page="home" onclick="navigate('home'); closeDrawer(); return false;">Accueil</a>
+  <a href="#" data-page="maisons" onclick="navigate('maisons'); closeDrawer(); return false;">Nos maisons</a>
+  <a href="#" data-page="services" onclick="navigate('services'); closeDrawer(); return false;">Services à la carte</a>
+  <a href="#" data-page="tarifs" onclick="navigate('tarifs'); closeDrawer(); return false;">Tarifs & disponibilités</a>
+  <a href="#" data-page="explorer" onclick="navigate('explorer'); closeDrawer(); return false;">À voir, à faire</a>
+  <a href="#" data-page="contact" onclick="navigate('contact'); closeDrawer(); return false;" class="drawer-cta">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+    Nous contacter / Réserver
+  </a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PROMO BANNER (always visible)
+═══════════════════════════════════════════════════════ -->
+<div class="promo-banner" id="promo">
+  <span class="promo-badge">Offre limitée</span>
+  <span>−10 % si vous réservez avant le 15 juin 2026</span>
+  <a href="tel:+33660458778" style="color:var(--gold-lt);font-weight:500;">06 60 45 87 78</a>
+</div>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE : ACCUEIL                                       ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Vue d'ensemble">
+    <img class="hero-img" src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_1890,h_939,al_c/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="Vue aérienne de La Villa Roméo à Sainte-Maxime" fetchpriority="high">
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Sainte-Maxime · Golfe de Saint-Tropez</p>
+      <h1>Cinq havres de paix<br>au bord de la <em>Méditerranée</em></h1>
+      <p class="hero-sub">Mini-villas & cottage avec piscine, spa jacuzzi et jardins privés. Accueil personnalisé toute l'année.</p>
+      <div class="hero-badges">
+        <span class="hero-badge">✦ Piscine & Spa</span>
+        <span class="hero-badge">✦ Draps inclus</span>
+        <span class="hero-badge">✦ Accueil toute l'année</span>
+        <span class="hero-badge">✦ 5 hébergements</span>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="navigate('maisons')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          Découvrir nos villas
+        </button>
+        <button class="btn btn-outline-white" onclick="navigate('contact')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Réserver
+        </button>
+      </div>
+    </div>
+    <div class="scroll-hint"><div class="scroll-line"></div>Découvrir</div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Piscine chauffée</span><span class="dot">✦</span><span>Spa Jacuzzi</span><span class="dot">✦</span><span>Draps & serviettes inclus</span><span class="dot">✦</span><span>Vue mer</span><span class="dot">✦</span><span>Petit-déjeuner sur demande</span><span class="dot">✦</span><span>Golf de Saint-Tropez</span><span class="dot">✦</span><span>5 mini-villas</span><span class="dot">✦</span><span>Accueil toute l'année</span><span class="dot">✦</span>
+      <span>Piscine chauffée</span><span class="dot">✦</span><span>Spa Jacuzzi</span><span class="dot">✦</span><span>Draps & serviettes inclus</span><span class="dot">✦</span><span>Vue mer</span><span class="dot">✦</span><span>Petit-déjeuner sur demande</span><span class="dot">✦</span><span>Golf de Saint-Tropez</span><span class="dot">✦</span><span>5 mini-villas</span><span class="dot">✦</span><span>Accueil toute l'année</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- FEATURES STRIP -->
+  <div class="features-strip" style="background:var(--white); border-bottom: 1px solid var(--sand-mid);">
+    <div class="feat-item reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 6s1.5 2 6 2 6-2 6-2M3 6v12s1.5 2 6 2 6-2 6-2V6M15 6s1.5 2 6 2v12s-1.5-2-6-2"/></svg></div>
+      <div class="feat-title">Piscine & Spa</div>
+      <div class="feat-desc">Piscine chauffée et jacuzzi partagés, ouverts toute la saison</div>
+    </div>
+    <div class="feat-item reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="feat-title">Intimité préservée</div>
+      <div class="feat-desc">Chaque hébergement dispose d'un espace extérieur privatif</div>
+    </div>
+    <div class="feat-item reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="feat-title">Tout inclus</div>
+      <div class="feat-desc">Lits faits à l'arrivée, draps & serviettes de qualité hôtelière</div>
+    </div>
+    <div class="feat-item reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+      <div class="feat-title">Localisation idéale</div>
+      <div class="feat-desc">À 5 min de la plage et 15 min de Saint-Tropez</div>
+    </div>
+  </div>
+
+  <!-- GALLERY STRIP -->
+  <div class="gallery-strip" role="img" aria-label="Galerie photos La Villa Roméo">
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif,quality_auto/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Piscine" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif,quality_auto/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="Spa" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif,quality_auto/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg" alt="Vue d'ensemble" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_602bbbda669a4a46a12a3b310ce65fa2~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif,quality_auto/Vue%20d'ensemble%20face.jpg" alt="Villa" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="Vue aérienne" loading="lazy"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stats-inner narrow">
+      <div class="stat-item reveal"><div class="stat-num">5</div><div class="stat-label">Hébergements</div></div>
+      <div class="stat-item reveal"><div class="stat-num">400+</div><div class="stat-label">Familles accueillies</div></div>
+      <div class="stat-item reveal"><div class="stat-num">4.9</div><div class="stat-label">Note moyenne</div></div>
+      <div class="stat-item reveal"><div class="stat-num">15'</div><div class="stat-label">De Saint-Tropez</div></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="section" style="background: var(--white);" aria-labelledby="about-heading">
+    <div class="narrow about-grid">
+      <div class="about-photo-stack reveal">
+        <div class="about-photo-main">
+          <img src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_940,h_600,al_c,q_85,enc_avif/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="La Villa Roméo" loading="lazy">
+        </div>
+        <div class="about-photo-small">
+          <img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_400,h_300,al_c,q_85,enc_avif/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Piscine La Villa Roméo" loading="lazy">
+        </div>
+        <div class="about-award">
+          <div class="award-num">★ 4.9</div>
+          <div class="award-text">Avis clients</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="label">Notre histoire</p>
+        <h2 class="heading" id="about-heading">Un domaine familial<br>au cœur de la <em>Côte d'Azur</em></h2>
+        <p class="desc" style="margin-bottom:20px">La Villa Roméo est un domaine conçu avec passion par la famille Quentin, au cœur d'un parc arboré de 3 500 m² à Sainte-Maxime. Cinq espaces uniques — quatre mini-villas et le Cottage Juliette — chacun portant une identité propre.</p>
+        <p class="desc" style="margin-bottom:32px">Nichée au calme, à quelques minutes seulement des plages et du port, La Villa Roméo offre l'intimité d'un séjour en villa privée avec les conforts d'un hébergement de standing.</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="navigate('maisons')">Nos hébergements</button>
+          <button class="btn btn-outline" onclick="navigate('contact')">Nous contacter</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testimonials-section" aria-labelledby="testi-heading">
+    <div class="narrow">
+      <div style="text-align:center; margin-bottom:48px;" class="reveal">
+        <p class="label" style="justify-content:center; color:var(--gold);" class="label-gold">Avis de nos hôtes</p>
+        <h2 class="heading heading-white" id="testi-heading">Ce qu'ils disent<br>de leur séjour</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testi-card reveal">
+          <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="testi-text">« Un cadre magnifique, calme et verdoyant. La piscine et le spa sont un vrai plus. Accueil chaleureux et très professionnel. On reviendra sans hésiter ! »</p>
+          <p class="testi-author">Marie & Thomas — Paris</p>
+        </div>
+        <div class="testi-card reveal">
+          <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="testi-text">« La Villa Rose est un vrai bijou. Tout est parfait : la literie, la déco, la terrasse privée... Idéal pour un séjour romantique dans le golfe de Saint-Tropez. »</p>
+          <p class="testi-author">Sophie — Lyon</p>
+        </div>
+        <div class="testi-card reveal">
+          <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="testi-text">« Nous avons loué le Cottage Juliette pour 6. Un espace généreux, une cuisine super équipée, et un accueil qui sort du lot. Une adresse à retenir absolument. »</p>
+          <p class="testi-author">La famille Bernard — Bordeaux</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band" style="background:var(--sand);" aria-labelledby="cta-home">
+    <img class="cta-bg" src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_1200,h_600,al_c,q_85,enc_avif/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="" aria-hidden="true">
+    <div class="cta-inner reveal">
+      <p class="label" style="justify-content:center">Prêt à réserver ?</p>
+      <h2 class="heading" id="cta-home">Votre prochain séjour<br>commence <em>ici</em></h2>
+      <p class="desc desc-center">Notre équipe répond sous 24h. Contactez-nous pour personnaliser votre séjour dans le Golfe de Saint-Tropez.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary" onclick="navigate('contact')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Envoyer un message
+        </button>
+        <a href="tel:+33660458778" class="btn btn-outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          06 60 45 87 78
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer aria-label="Pied de page">
+    <div class="narrow footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">La Villa Roméo</div>
+        <div class="brand-sub">Sainte-Maxime · Var · France</div>
+        <p class="footer-tagline">« Cinq havres de paix au cœur<br>du Golfe de Saint-Tropez »</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/lavillaromeo" class="footer-social" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.facebook.com/lavillaromeosaintemaxime" class="footer-social" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://www.linkedin.com/in/eric-quentin/" class="footer-social" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#" onclick="navigate('home'); return false;">Accueil</a></li>
+          <li><a href="#" onclick="navigate('maisons'); return false;">Nos maisons</a></li>
+          <li><a href="#" onclick="navigate('services'); return false;">Services à la carte</a></li>
+          <li><a href="#" onclick="navigate('tarifs'); return false;">Tarifs & disponibilités</a></li>
+          <li><a href="#" onclick="navigate('explorer'); return false;">À voir, à faire</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+33660458778">+33 (0)6 60 45 87 78</a></li>
+          <li><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></li>
+          <li><a href="https://maps.google.com/?q=81+chemin+des+Aoucellouns+83120+Sainte-Maxime" target="_blank" rel="noopener">81 ch. des Aoucellouns<br>83120 Sainte-Maxime</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Politique de confidentialité</a></li>
+          <li><a href="#">CGV location</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom narrow">
+      <p>© 2026 La Villa Roméo · <a href="https://www.lavillaromeo.fr" style="color:inherit">lavillaromeo.fr</a></p>
+      <p>Conçu avec soin · Golfe de Saint-Tropez</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE : NOS MAISONS                                   ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page" id="page-maisons">
+
+  <section class="hero hero-sm" aria-label="Nos maisons">
+    <img class="hero-img" src="https://static.wixstatic.com/media/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg/v1/fill/w_1890,h_600,al_c,q_85/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg" alt="Vue d'ensemble La Villa Roméo" fetchpriority="high">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Hébergements</p>
+      <h1>Nos <em>maisons</em></h1>
+      <p class="hero-sub">Quatre mini-villas et un cottage de charme, chacun avec son caractère et son espace extérieur privatif.</p>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white);" aria-labelledby="maisons-heading">
+    <div class="narrow">
+      <div class="reveal" style="margin-bottom:48px;">
+        <p class="label">Cinq espaces uniques</p>
+        <h2 class="heading" id="maisons-heading">Choisissez votre <em>écrin</em><br>de vacances</h2>
+        <p class="desc">Chaque hébergement dispose d'une terrasse ou d'un espace extérieur privatif, d'un accès direct à la piscine et au spa, et de tout le confort nécessaire pour un séjour d'exception.</p>
+      </div>
+      <div class="villas-grid">
+        <!-- Villa Bleue -->
+        <div class="villa-card reveal" onclick="navigate('tarifs')">
+          <div class="vc-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_602bbbda669a4a46a12a3b310ce65fa2~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif/Vue%20d'ensemble%20face.jpg" alt="Villa Bleue" loading="lazy">
+            <span class="vc-badge">Mini-villa</span>
+            <div class="vc-color" style="background:#5B9BD5"></div>
+          </div>
+          <div class="vc-body">
+            <div class="vc-name">La Villa Bleue</div>
+            <div class="vc-sub">Terrasse privée · Vue jardin</div>
+            <div class="vc-chips">
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 personnes</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0"/></svg>Wifi</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Clim</span>
+            </div>
+            <div class="vc-price">
+              <span class="vc-price-from">À partir de</span>
+              <span class="vc-price-num">90 €</span>
+              <span class="vc-price-from">/nuit</span>
+            </div>
+          </div>
+        </div>
+        <!-- Villa Jaune -->
+        <div class="villa-card reveal" onclick="navigate('tarifs')">
+          <div class="vc-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="Villa Jaune" loading="lazy">
+            <span class="vc-badge">Mini-villa</span>
+            <div class="vc-color" style="background:#F4C842"></div>
+          </div>
+          <div class="vc-body">
+            <div class="vc-name">La Villa Jaune</div>
+            <div class="vc-sub">Ensoleillée · Terrasse sud</div>
+            <div class="vc-chips">
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 personnes</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0"/></svg>Wifi</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Clim</span>
+            </div>
+            <div class="vc-price">
+              <span class="vc-price-from">À partir de</span>
+              <span class="vc-price-num">90 €</span>
+              <span class="vc-price-from">/nuit</span>
+            </div>
+          </div>
+        </div>
+        <!-- Villa Rose -->
+        <div class="villa-card reveal" onclick="navigate('tarifs')">
+          <div class="vc-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Villa Rose" loading="lazy">
+            <span class="vc-badge">Mini-villa</span>
+            <div class="vc-color" style="background:#E87D9E"></div>
+          </div>
+          <div class="vc-body">
+            <div class="vc-name">La Villa Rose</div>
+            <div class="vc-sub">Romantique · Terrasse fleurie</div>
+            <div class="vc-chips">
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 personnes</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0"/></svg>Wifi</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Romantique</span>
+            </div>
+            <div class="vc-price">
+              <span class="vc-price-from">À partir de</span>
+              <span class="vc-price-num">90 €</span>
+              <span class="vc-price-from">/nuit</span>
+            </div>
+          </div>
+        </div>
+        <!-- Villa Verte -->
+        <div class="villa-card reveal" onclick="navigate('tarifs')">
+          <div class="vc-photo">
+            <img src="https://static.wixstatic.com/media/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg" alt="Villa Verte" loading="lazy">
+            <span class="vc-badge">Mini-villa</span>
+            <div class="vc-color" style="background:#6BAE6E"></div>
+          </div>
+          <div class="vc-body">
+            <div class="vc-name">La Villa Verte</div>
+            <div class="vc-sub">Nature · Jardin privatif</div>
+            <div class="vc-chips">
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 personnes</span>
+              <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0"/></svg>Wifi</span>
+              <span class="vc-chip" style="background:var(--sage-lt); color:var(--sage-dk);">🌿 Nature</span>
+            </div>
+            <div class="vc-price">
+              <span class="vc-price-from">À partir de</span>
+              <span class="vc-price-num">90 €</span>
+              <span class="vc-price-from">/nuit</span>
+            </div>
+          </div>
+        </div>
+        <!-- Cottage Juliette -->
+        <div class="villa-card reveal" style="grid-column: span 2;" onclick="navigate('tarifs')">
+          <div style="display:grid; grid-template-columns:1fr 1fr; overflow:hidden; border-radius: var(--r-lg); height:280px;">
+            <div class="vc-photo" style="border-radius:0; height:100%;">
+              <img src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85,enc_avif/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="Cottage Juliette" loading="lazy" style="height:100%;">
+              <span class="vc-badge">Cottage · Gîte de charme</span>
+              <div class="vc-color" style="background:var(--terracotta)"></div>
+            </div>
+            <div class="vc-body" style="display:flex; flex-direction:column; justify-content:center;">
+              <div class="vc-name">Le Cottage Juliette</div>
+              <div class="vc-sub">Gîte de charme · Grande capacité</div>
+              <div class="vc-chips" style="margin-bottom:16px;">
+                <span class="vc-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>4–6 personnes</span>
+                <span class="vc-chip">🍳 Cuisine équipée</span>
+                <span class="vc-chip">🛁 Salle de bain</span>
+              </div>
+              <p style="font-size:13px; color:var(--mist); font-weight:300; margin-bottom:18px;">Le seul hébergement multi-chambres du domaine, idéal pour les familles et les groupes d'amis.</p>
+              <div class="vc-price">
+                <span class="vc-price-from">À partir de</span>
+                <span class="vc-price-num">140 €</span>
+                <span class="vc-price-from">/nuit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Included in all -->
+      <div class="reveal" style="margin-top:64px; background:var(--sand); border-radius:var(--r-lg); padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;">
+        <div>
+          <p class="label">Inclus dans tous les hébergements</p>
+          <h3 class="heading" style="font-size:clamp(22px,2.5vw,34px)">Tout ce dont vous avez besoin</h3>
+          <p class="desc">Chaque séjour à La Villa Roméo est pensé pour que vous n'ayez à vous soucier de rien.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="font-size:20px;margin-top:2px;">🏊</div><div><strong style="font-size:14px;display:block;margin-bottom:2px;">Piscine & Spa</strong><span style="font-size:13px;color:var(--mist);">Piscine chauffée + jacuzzi</span></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="font-size:20px;margin-top:2px;">🛏️</div><div><strong style="font-size:14px;display:block;margin-bottom:2px;">Linge hôtelier</strong><span style="font-size:13px;color:var(--mist);">Draps & serviettes inclus</span></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="font-size:20px;margin-top:2px;">📶</div><div><strong style="font-size:14px;display:block;margin-bottom:2px;">Wifi haut débit</strong><span style="font-size:13px;color:var(--mist);">Dans tout le domaine</span></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="font-size:20px;margin-top:2px;">❄️</div><div><strong style="font-size:14px;display:block;margin-bottom:2px;">Climatisation</strong><span style="font-size:13px;color:var(--mist);">Dans toutes les villas</span></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="font-size:20px;margin-top:2px;">🌿</div><div><strong style="font-size:14px;display:block;margin-bottom:2px;">Parc arboré</strong><span style="font-size:13px;color:var(--mist);">3 500 m² de verdure</span></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="font-size:20px;margin-top:2px;">🅿️</div><div><strong style="font-size:14px;display:block;margin-bottom:2px;">Parking gratuit</strong><span style="font-size:13px;color:var(--mist);">Sur le domaine</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" style="background:var(--sand);">
+    <img class="cta-bg" src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_1200,h_600,al_c,q_85,enc_avif/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="" aria-hidden="true">
+    <div class="cta-inner reveal">
+      <p class="label" style="justify-content:center">Disponibilités</p>
+      <h2 class="heading">Vérifier les <em>disponibilités</em></h2>
+      <p class="desc desc-center">Consultez nos tarifs ou contactez-nous directement pour réserver votre hébergement.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary" onclick="navigate('tarifs')">Voir les tarifs</button>
+        <button class="btn btn-outline" onclick="navigate('contact')">Nous contacter</button>
+      </div>
+    </div>
+  </section>
+
+  <footer aria-label="Pied de page">
+    <div class="narrow footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">La Villa Roméo</div>
+        <div class="brand-sub">Sainte-Maxime · Var · France</div>
+        <p class="footer-tagline">« Cinq havres de paix »</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/lavillaromeo" class="footer-social" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.facebook.com/lavillaromeosaintemaxime" class="footer-social" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#" onclick="navigate('home');return false;">Accueil</a></li><li><a href="#" onclick="navigate('tarifs');return false;">Tarifs</a></li><li><a href="#" onclick="navigate('contact');return false;">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33660458778">+33 (0)6 60 45 87 78</a></li><li><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li></ul></div>
+    </div>
+    <div class="footer-bottom narrow"><p>© 2026 La Villa Roméo</p><p>Golfe de Saint-Tropez</p></div>
+  </footer>
+</div>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE : SERVICES                                      ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page" id="page-services">
+
+  <section class="hero hero-sm">
+    <img class="hero-img" src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_1890,h_600,al_c,q_85/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Services La Villa Roméo">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Sur mesure</p>
+      <h1>Services <em>à la carte</em></h1>
+      <p class="hero-sub">Des prestations pensées pour sublimer votre séjour, disponibles sur réservation préalable.</p>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white);">
+    <div class="narrow">
+      <div class="reveal" style="margin-bottom:48px;">
+        <p class="label">Nos prestations</p>
+        <h2 class="heading">Tout pour un séjour <em>d'exception</em></h2>
+        <p class="desc">Nos services à la carte vous permettent de personnaliser entièrement votre séjour. Contactez-nous à l'avance pour organiser votre programme.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+          <div class="sc-title">Petit-déjeuner</div>
+          <div class="sc-desc">Plateau de petit-déjeuner servi sur votre terrasse privée : viennoiseries, fruits frais, jus pressé, café. Une façon délicieuse de commencer la journée.</div>
+          <div class="sc-price">Sur demande à la réservation</div>
+        </div>
+        <div class="service-card reveal">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+          <div class="sc-title">Transfert aéroport</div>
+          <div class="sc-desc">Prise en charge privée depuis l'aéroport de Toulon-Hyères ou Nice Côte d'Azur. Confort et ponctualité garantis pour une arrivée sereine.</div>
+          <div class="sc-price">Tarif sur devis selon trajet</div>
+        </div>
+        <div class="service-card reveal">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></div>
+          <div class="sc-title">Conciergerie</div>
+          <div class="sc-desc">Réservation de restaurants, excursions en mer, activités nautiques, visites guidées... Nous organisons votre programme sur la Côte d'Azur.</div>
+          <div class="sc-price">Service inclus · Sur demande</div>
+        </div>
+        <div class="service-card reveal">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
+          <div class="sc-title">Déco romantique</div>
+          <div class="sc-desc">Pétales de roses, bougies, champagne et décoration spéciale pour les couples souhaitant marquer un anniversaire ou une occasion particulière.</div>
+          <div class="sc-price">À partir de 60 €</div>
+        </div>
+        <div class="service-card reveal">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg></div>
+          <div class="sc-title">Excursion Saint-Tropez</div>
+          <div class="sc-desc">Journée en mer ou visite guidée de Saint-Tropez, Les Issambres et les villages du haut-Var. Nos partenaires locaux vous accueillent dans les meilleures conditions.</div>
+          <div class="sc-price">Tarif selon prestataire</div>
+        </div>
+        <div class="service-card reveal">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+          <div class="sc-title">Ménage intermédiaire</div>
+          <div class="sc-desc">Pour les longs séjours, nous proposons un service de ménage intermédiaire et de rechange du linge. Parlez-en lors de votre réservation.</div>
+          <div class="sc-price">Tarif sur devis</div>
+        </div>
+      </div>
+
+      <!-- Forfait ménage -->
+      <div class="reveal" style="margin-top:48px; background:var(--ink); border-radius:var(--r-lg); padding:40px; display:grid; grid-template-columns:1fr auto; gap:32px; align-items:center; flex-wrap:wrap;">
+        <div>
+          <p class="label" style="color:var(--gold);" >Inclus systématiquement</p>
+          <h3 class="heading heading-white" style="font-size:clamp(20px,2.5vw,30px);">Ménage fin de séjour</h3>
+          <p style="font-size:14px; font-weight:300; color:rgba(253,250,245,0.65); max-width:500px; margin-top:8px;">Le forfait ménage de fin de séjour est automatiquement inclus dans votre location. La villa vous est remise propre à l'arrivée et sera remise en état après votre départ.</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:56px; font-weight:300; color:var(--gold); line-height:1;">75<sup style="font-size:24px;">€</sup></div>
+          <div style="font-size:11px; font-weight:300; letter-spacing:0.12em; text-transform:uppercase; color:rgba(253,250,245,0.45);">Forfait fixe</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" style="background:var(--sand);">
+    <img class="cta-bg" src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_1200,h_600,al_c,q_85/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="" aria-hidden="true">
+    <div class="cta-inner reveal">
+      <p class="label" style="justify-content:center">Sur mesure</p>
+      <h2 class="heading">Personnalisez votre <em>séjour</em></h2>
+      <p class="desc desc-center">Contactez-nous pour composer votre programme idéal. Notre équipe est à votre disposition pour répondre à toutes vos demandes.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary" onclick="navigate('contact')">Nous contacter</button>
+        <a href="tel:+33660458778" class="btn btn-outline">06 60 45 87 78</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="narrow footer-grid">
+      <div class="footer-brand"><div class="brand-name">La Villa Roméo</div><div class="brand-sub">Sainte-Maxime · Var · France</div><p class="footer-tagline">« Cinq havres de paix »</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#" onclick="navigate('home');return false;">Accueil</a></li><li><a href="#" onclick="navigate('maisons');return false;">Nos maisons</a></li><li><a href="#" onclick="navigate('tarifs');return false;">Tarifs</a></li><li><a href="#" onclick="navigate('contact');return false;">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33660458778">06 60 45 87 78</a></li><li><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li></ul></div>
+    </div>
+    <div class="footer-bottom narrow"><p>© 2026 La Villa Roméo</p><p>Golfe de Saint-Tropez</p></div>
+  </footer>
+</div>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE : TARIFS & DISPONIBILITÉS                       ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page" id="page-tarifs">
+
+  <section class="hero hero-sm">
+    <img class="hero-img" src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_1890,h_939,al_c/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="Tarifs La Villa Roméo">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Tarifs & disponibilités 2026</p>
+      <h1>Réservez votre <em>séjour</em><br>dans le Golfe de Saint-Tropez</h1>
+      <p class="hero-sub">Accueil toute l'année · Draps & serviettes inclus · Petit-déjeuner sur demande</p>
+    </div>
+  </section>
+
+  <!-- VILLA TABS -->
+  <section class="section" style="background:var(--white);">
+    <div class="narrow">
+      <div class="reveal" style="margin-bottom:40px;">
+        <p class="label">Nos hébergements</p>
+        <h2 class="heading">Cinq espaces uniques,<br>une même <em>excellence</em></h2>
+        <p class="desc" style="margin-bottom:36px;">Choisissez votre mini-villa ou notre cottage Juliette — chacun dispose d'un accès privatif et d'une identité propre.</p>
+      </div>
+
+      <div class="villa-tabs reveal" role="tablist">
+        <button class="villa-tab active" role="tab" aria-selected="true" data-target="bleue">Villa Bleue</button>
+        <button class="villa-tab" role="tab" aria-selected="false" data-target="jaune">Villa Jaune</button>
+        <button class="villa-tab" role="tab" aria-selected="false" data-target="rose">Villa Rose</button>
+        <button class="villa-tab" role="tab" aria-selected="false" data-target="verte">Villa Verte</button>
+        <button class="villa-tab" role="tab" aria-selected="false" data-target="juliette">Cottage Juliette</button>
+      </div>
+
+      <!-- BLEUE -->
+      <div class="villa-panel active reveal" id="tp-bleue">
+        <div class="vp-photo">
+          <img src="https://static.wixstatic.com/media/1aeb15_602bbbda669a4a46a12a3b310ce65fa2~mv2.jpg/v1/fill/w_940,h_484,al_c,q_85,enc_avif/Vue%20d'ensemble%20face.jpg" alt="Villa Bleue" loading="lazy">
+          <span class="vp-photo-badge">Mini-villa</span>
+        </div>
+        <div>
+          <h3 class="vp-name">La Villa Bleue</h3>
+          <p class="vp-sub">Mini-villa avec terrasse privée</p>
+          <div class="amenity-chips">
+            <span class="amenity-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2 personnes</span>
+            <span class="amenity-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>Piscine partagée</span>
+            <span class="amenity-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>Spa jacuzzi</span>
+            <span class="amenity-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Draps inclus</span>
+            <span class="amenity-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0"/></svg>Wifi</span>
+            <span class="amenity-chip"><svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Climatisation</span>
+          </div>
+          <div class="tarif-grid">
+            <div class="tarif-card" data-s="th"><p class="tc-season">Très haute saison</p><p class="tc-price"><sup>à partir de </sup>200<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="h"><p class="tc-season">Haute saison</p><p class="tc-price"><sup>à partir de </sup>150<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="m"><p class="tc-season">Moyenne saison</p><p class="tc-price"><sup>à partir de </sup>120<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="b"><p class="tc-season">Basse saison</p><p class="tc-price"><sup>à partir de </sup>90<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+          </div>
+          <button class="btn btn-primary" onclick="navigate('contact')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            Demander la disponibilité
+          </button>
+        </div>
+      </div>
+
+      <!-- JAUNE -->
+      <div class="villa-panel" id="tp-jaune">
+        <div class="vp-photo"><img src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_940,h_484,al_c,q_85,enc_avif/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="Villa Jaune" loading="lazy"><span class="vp-photo-badge">Mini-villa</span></div>
+        <div>
+          <h3 class="vp-name">La Villa Jaune</h3><p class="vp-sub">Mini-villa ensoleillée</p>
+          <div class="amenity-chips"><span class="amenity-chip">👥 2 personnes</span><span class="amenity-chip">🏊 Piscine</span><span class="amenity-chip">♨️ Spa jacuzzi</span><span class="amenity-chip">🛏️ Draps inclus</span><span class="amenity-chip">📶 Wifi</span></div>
+          <div class="tarif-grid">
+            <div class="tarif-card" data-s="th"><p class="tc-season">Très haute saison</p><p class="tc-price"><sup>à partir de </sup>200<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="h"><p class="tc-season">Haute saison</p><p class="tc-price"><sup>à partir de </sup>150<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="m"><p class="tc-season">Moyenne saison</p><p class="tc-price"><sup>à partir de </sup>120<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="b"><p class="tc-season">Basse saison</p><p class="tc-price"><sup>à partir de </sup>90<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+          </div>
+          <button class="btn btn-primary" onclick="navigate('contact')">Demander la disponibilité</button>
+        </div>
+      </div>
+
+      <!-- ROSE -->
+      <div class="villa-panel" id="tp-rose">
+        <div class="vp-photo"><img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_940,h_484,al_c,q_85,enc_avif/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Villa Rose" loading="lazy"><span class="vp-photo-badge">Mini-villa</span></div>
+        <div>
+          <h3 class="vp-name">La Villa Rose</h3><p class="vp-sub">Mini-villa romantique</p>
+          <div class="amenity-chips"><span class="amenity-chip">👥 2 personnes</span><span class="amenity-chip">🏊 Piscine</span><span class="amenity-chip">♨️ Spa jacuzzi</span><span class="amenity-chip">🛏️ Draps inclus</span><span class="amenity-chip">❤️ Romantique</span></div>
+          <div class="tarif-grid">
+            <div class="tarif-card" data-s="th"><p class="tc-season">Très haute saison</p><p class="tc-price"><sup>à partir de </sup>200<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="h"><p class="tc-season">Haute saison</p><p class="tc-price"><sup>à partir de </sup>150<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="m"><p class="tc-season">Moyenne saison</p><p class="tc-price"><sup>à partir de </sup>120<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="b"><p class="tc-season">Basse saison</p><p class="tc-price"><sup>à partir de </sup>90<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+          </div>
+          <button class="btn btn-primary" onclick="navigate('contact')">Demander la disponibilité</button>
+        </div>
+      </div>
+
+      <!-- VERTE -->
+      <div class="villa-panel" id="tp-verte">
+        <div class="vp-photo"><img src="https://static.wixstatic.com/media/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg/v1/fill/w_940,h_484,al_c,q_85,enc_avif/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg" alt="Villa Verte" loading="lazy"><span class="vp-photo-badge">Mini-villa</span></div>
+        <div>
+          <h3 class="vp-name">La Villa Verte</h3><p class="vp-sub">Mini-villa côté jardin</p>
+          <div class="amenity-chips"><span class="amenity-chip">👥 2 personnes</span><span class="amenity-chip">🏊 Piscine</span><span class="amenity-chip">♨️ Spa jacuzzi</span><span class="amenity-chip">🌿 Jardin privatif</span><span class="amenity-chip">🛏️ Draps inclus</span></div>
+          <div class="tarif-grid">
+            <div class="tarif-card" data-s="th"><p class="tc-season">Très haute saison</p><p class="tc-price"><sup>à partir de </sup>200<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="h"><p class="tc-season">Haute saison</p><p class="tc-price"><sup>à partir de </sup>150<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="m"><p class="tc-season">Moyenne saison</p><p class="tc-price"><sup>à partir de </sup>120<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="b"><p class="tc-season">Basse saison</p><p class="tc-price"><sup>à partir de </sup>90<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+          </div>
+          <button class="btn btn-primary" onclick="navigate('contact')">Demander la disponibilité</button>
+        </div>
+      </div>
+
+      <!-- JULIETTE -->
+      <div class="villa-panel" id="tp-juliette">
+        <div class="vp-photo"><img src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_940,h_484,al_c,q_85,enc_avif/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="Cottage Juliette" loading="lazy"><span class="vp-photo-badge">Cottage</span></div>
+        <div>
+          <h3 class="vp-name">Le Cottage Juliette</h3><p class="vp-sub">Gîte de charme — capacité étendue</p>
+          <div class="amenity-chips"><span class="amenity-chip">👨‍👩‍👧‍👦 4–6 personnes</span><span class="amenity-chip">🏊 Piscine</span><span class="amenity-chip">♨️ Spa jacuzzi</span><span class="amenity-chip">🍳 Cuisine équipée</span><span class="amenity-chip">🛏️ Draps inclus</span></div>
+          <div class="tarif-grid">
+            <div class="tarif-card" data-s="th"><p class="tc-season">Très haute saison</p><p class="tc-price"><sup>à partir de </sup>320<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="h"><p class="tc-season">Haute saison</p><p class="tc-price"><sup>à partir de </sup>240<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="m"><p class="tc-season">Moyenne saison</p><p class="tc-price"><sup>à partir de </sup>180<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+            <div class="tarif-card" data-s="b"><p class="tc-season">Basse saison</p><p class="tc-price"><sup>à partir de </sup>140<sup>€</sup></p><p class="tc-unit">par nuit</p></div>
+          </div>
+          <button class="btn btn-primary" onclick="navigate('contact')">Demander la disponibilité</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONDITIONS -->
+  <section class="section" style="background:var(--ink);">
+    <div class="narrow cond-grid">
+      <div class="reveal">
+        <p class="label label-gold">Conditions de location</p>
+        <h2 class="heading heading-white">Tout ce que<br>vous devez <em>savoir</em></h2>
+        <ul class="cond-list" style="margin-top:28px;">
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></span><span>Minimum <strong style="color:var(--white)">2 nuits</strong> (semaine complète obligatoire en été)</span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg></span><span>Lits faits à l'arrivée — <strong style="color:var(--white)">draps & serviettes inclus</strong></span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></span><span>Forfait ménage fin de séjour : <strong style="color:var(--white)">75 €</strong></span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></span><span>Taxe de séjour : <strong style="color:var(--white)">2,16 €/adulte/nuit</strong></span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span><span>Arrivée <strong style="color:var(--white)">16h30</strong> — Départ <strong style="color:var(--white)">10h00</strong></span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></span><span>Contrat + <strong style="color:var(--white)">acompte 30 %</strong> à la réservation</span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></span><span><strong style="color:var(--white)">Chèques vacances acceptés</strong></span></li>
+          <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></span><span>Animaux non admis</span></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="cond-aside">
+          <p class="label label-gold">Services optionnels</p>
+          <ul class="cond-list">
+            <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/></svg></span><span>Petit-déjeuner sur demande</span></li>
+            <li><span class="cond-icon"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg></span><span>Transfert aéroport (Toulon, Nice)</span></li>
+          </ul>
+          <div class="promo-card">
+            <div class="promo-pct">−10%</div>
+            <p>Réservez avant le <strong>15 juin 2026</strong><br>et bénéficiez de 10 % de remise sur votre séjour</p>
+            <a href="tel:+33660458778" style="display:inline-block;margin-top:16px;color:var(--gold);font-size:15px;">+33 (0)6 60 45 87 78</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANNING -->
+  <section class="section" style="background:var(--sand);">
+    <div class="narrow">
+      <div class="planning-header reveal">
+        <div>
+          <p class="label">Disponibilités</p>
+          <h2 class="heading">Planning des réservations</h2>
+          <p class="desc">Nos disponibilités en temps réel. Contactez-nous pour toute demande.</p>
+        </div>
+        <button class="btn btn-primary" onclick="navigate('contact')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Nous contacter
+        </button>
+      </div>
+      <div class="planning-wrap reveal">
+        <table class="planning-table">
+          <thead>
+            <tr>
+              <th>Hébergement</th><th>Juin 2026</th><th>Juillet 2026</th><th>Août 2026</th><th>Septembre 2026</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="villa-name-cell"><span class="villa-dot" style="background:#5B9BD5"></span>Villa Bleue</span></td><td><span class="status-pill sp-ok">Disponible</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ok">Disponible</span></td></tr>
+            <tr><td><span class="villa-name-cell"><span class="villa-dot" style="background:#F4C842"></span>Villa Jaune</span></td><td><span class="status-pill sp-few">Quelques dates</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ok">Disponible</span></td></tr>
+            <tr><td><span class="villa-name-cell"><span class="villa-dot" style="background:#E87D9E"></span>Villa Rose</span></td><td><span class="status-pill sp-ok">Disponible</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-few">Quelques dates</span></td></tr>
+            <tr><td><span class="villa-name-cell"><span class="villa-dot" style="background:#6BAE6E"></span>Villa Verte</span></td><td><span class="status-pill sp-ok">Disponible</span></td><td><span class="status-pill sp-few">Quelques dates</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ok">Disponible</span></td></tr>
+            <tr><td><span class="villa-name-cell"><span class="villa-dot" style="background:#C4805A"></span>Cottage Juliette</span></td><td><span class="status-pill sp-few">Quelques dates</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ask">Sur demande</span></td><td><span class="status-pill sp-ok">Disponible</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="planning-legend">
+        <span class="leg-item"><span class="leg-dot" style="background:rgba(139,168,136,0.4);border:1.5px solid var(--sage-dk)"></span>Disponible</span>
+        <span class="leg-item"><span class="leg-dot" style="background:rgba(201,169,110,0.3);border:1.5px solid #7a5b1a"></span>Quelques dates</span>
+        <span class="leg-item"><span class="leg-dot" style="background:rgba(196,128,90,0.2);border:1.5px solid var(--terracotta-dk)"></span>Sur demande</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY STRIP -->
+  <div class="gallery-strip">
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg" alt="" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_602bbbda669a4a46a12a3b310ce65fa2~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/Vue%20d'ensemble%20face.jpg" alt="" loading="lazy"></div>
+    <div class="gs-item"><img src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="" loading="lazy"></div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-band" style="background:var(--white);">
+    <img class="cta-bg" src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_1200,h_600/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="" aria-hidden="true">
+    <div class="cta-inner reveal">
+      <p class="label" style="justify-content:center">Prêt à réserver ?</p>
+      <h2 class="heading">Nous vous répondrons<br>en moins de <em>24h</em></h2>
+      <p class="desc desc-center">Une question ? Un besoin particulier ? Notre équipe est disponible pour personnaliser votre séjour.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary" onclick="navigate('contact')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Envoyer un message
+        </button>
+        <a href="tel:+33660458778" class="btn btn-outline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          06 60 45 87 78
+        </a>
+      </div>
+      <div class="contact-chips">
+        <a href="mailto:info@lavillaromeo.fr" class="contact-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>info@lavillaromeo.fr</a>
+        <span class="contact-chip"><svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>81 ch. des Aoucellouns, 83120 Sainte-Maxime</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="narrow footer-grid">
+      <div class="footer-brand"><div class="brand-name">La Villa Roméo</div><div class="brand-sub">Sainte-Maxime · Var · France</div><p class="footer-tagline">« Cinq havres de paix »</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#" onclick="navigate('home');return false;">Accueil</a></li><li><a href="#" onclick="navigate('maisons');return false;">Nos maisons</a></li><li><a href="#" onclick="navigate('services');return false;">Services</a></li><li><a href="#" onclick="navigate('contact');return false;">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33660458778">06 60 45 87 78</a></li><li><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li></ul></div>
+    </div>
+    <div class="footer-bottom narrow"><p>© 2026 La Villa Roméo</p><p>Golfe de Saint-Tropez</p></div>
+  </footer>
+</div>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE : EXPLORER (À VOIR, À FAIRE)                    ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page" id="page-explorer">
+
+  <section class="hero hero-sm">
+    <img class="hero-img" src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_1890,h_600,al_c,q_85/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="Côte d'Azur">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Côte d'Azur</p>
+      <h1>À voir, <em>à faire</em><br>aux alentours</h1>
+      <p class="hero-sub">Sainte-Maxime est une porte d'entrée idéale pour explorer le Golfe de Saint-Tropez et ses trésors.</p>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white);">
+    <div class="narrow">
+      <div class="reveal" style="margin-bottom:48px;">
+        <p class="label">Environs</p>
+        <h2 class="heading">Le meilleur de la <em>Côte d'Azur</em><br>à votre portée</h2>
+        <p class="desc">Sainte-Maxime bénéficie d'une position idéale : plages de sable fin, villages perchés, marchés provençaux et la légendaire Saint-Tropez.</p>
+      </div>
+      <div class="activities-grid">
+        <div class="activity-card reveal">
+          <div class="ac-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_600,h_380,al_c,q_85/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Plages" loading="lazy">
+            <span class="ac-cat">Nature</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-title">Plages de Sainte-Maxime</div>
+            <div class="ac-desc">Plages de sable fin accessibles à pied depuis la villa. Eau cristalline, palmiers et ambiance balnéaire idéale pour familles et couples.</div>
+            <div class="ac-dist"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>5 min en voiture</div>
+          </div>
+        </div>
+        <div class="activity-card reveal">
+          <div class="ac-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_600,h_380,al_c,q_85/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="Saint-Tropez" loading="lazy">
+            <span class="ac-cat">Culture</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-title">Saint-Tropez</div>
+            <div class="ac-desc">La légendaire cité balnéaire, ses ruelles colorées, son port de plaisance, ses galeries d'art et la célèbre place des Lices.</div>
+            <div class="ac-dist"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>15 min en voiture</div>
+          </div>
+        </div>
+        <div class="activity-card reveal">
+          <div class="ac-photo">
+            <img src="https://static.wixstatic.com/media/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg/v1/fill/w_600,h_380,al_c,q_85/8de39c_806f36edd00947cb9271cfe7a2941d52~mv2.jpg" alt="Activités nautiques" loading="lazy">
+            <span class="ac-cat">Activités</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-title">Activités nautiques</div>
+            <div class="ac-desc">Jet-ski, paddle, plongée, voile ou sorties en bateau vers les Îles d'Or... Le golfe de Saint-Tropez est un paradis pour les amateurs de mer.</div>
+            <div class="ac-dist"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>Port de Sainte-Maxime</div>
+          </div>
+        </div>
+        <div class="activity-card reveal">
+          <div class="ac-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_602bbbda669a4a46a12a3b310ce65fa2~mv2.jpg/v1/fill/w_600,h_380,al_c,q_85/Vue%20d'ensemble%20face.jpg" alt="Villages perchés" loading="lazy">
+            <span class="ac-cat">Patrimoine</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-title">Villages perchés du Var</div>
+            <div class="ac-desc">Grimaud, Gassin, Ramatuelle… Ces villages médiévaux perchés offrent des panoramas époustouflants sur le golfe et la campagne provençale.</div>
+            <div class="ac-dist"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>20–30 min en voiture</div>
+          </div>
+        </div>
+        <div class="activity-card reveal">
+          <div class="ac-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg/v1/fill/w_600,h_380,al_c,q_85/1aeb15_428ac00af7024e9e953c5804b08f91a1~mv2.jpg" alt="Golf" loading="lazy">
+            <span class="ac-cat">Sport</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-title">Golf de Beauvallon</div>
+            <div class="ac-desc">L'un des plus beaux parcours de la Côte d'Azur, à quelques minutes de la villa. Cadre exceptionnel avec vue sur le golfe.</div>
+            <div class="ac-dist"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>10 min en voiture</div>
+          </div>
+        </div>
+        <div class="activity-card reveal">
+          <div class="ac-photo">
+            <img src="https://static.wixstatic.com/media/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg/v1/fill/w_600,h_380,al_c,q_85/1aeb15_b88bf1e2830a4936aa3833a5d1d2cd2f~mv2.jpg" alt="Marchés provençaux" loading="lazy">
+            <span class="ac-cat">Gastronomie</span>
+          </div>
+          <div class="ac-body">
+            <div class="ac-title">Marchés provençaux</div>
+            <div class="ac-desc">Les marchés de Sainte-Maxime et des villages alentour regorgent de produits locaux : fruits, légumes, artisanat, fromages et spécialités du Var.</div>
+            <div class="ac-dist"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>Centre-ville</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Infos pratiques -->
+      <div class="reveal" style="margin-top:64px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px;">
+        <div style="background:var(--sand); border-radius:var(--r-lg); padding:32px;">
+          <div style="font-size:28px; margin-bottom:14px;">🚗</div>
+          <h4 style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; margin-bottom:10px;">Accès en voiture</h4>
+          <p style="font-size:13px; color:var(--mist); font-weight:300; line-height:1.7;">A8 sortie Le Muy, puis D25 direction Sainte-Maxime. GPS : 81 chemin des Aoucellouns, 83120 Sainte-Maxime.</p>
+        </div>
+        <div style="background:var(--sand); border-radius:var(--r-lg); padding:32px;">
+          <div style="font-size:28px; margin-bottom:14px;">✈️</div>
+          <h4 style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; margin-bottom:10px;">Aéroports</h4>
+          <p style="font-size:13px; color:var(--mist); font-weight:300; line-height:1.7;">Toulon-Hyères : 55 min · Nice Côte d'Azur : 1h30. Transferts privés disponibles sur demande.</p>
+        </div>
+        <div style="background:var(--sand); border-radius:var(--r-lg); padding:32px;">
+          <div style="font-size:28px; margin-bottom:14px;">🚢</div>
+          <h4 style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; margin-bottom:10px;">En bateau</h4>
+          <p style="font-size:13px; color:var(--mist); font-weight:300; line-height:1.7;">Ferry Sainte-Maxime ↔ Saint-Tropez en 15 min depuis le port. Service régulier toute la journée en été.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="narrow footer-grid">
+      <div class="footer-brand"><div class="brand-name">La Villa Roméo</div><div class="brand-sub">Sainte-Maxime · Var · France</div><p class="footer-tagline">« Cinq havres de paix »</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#" onclick="navigate('home');return false;">Accueil</a></li><li><a href="#" onclick="navigate('maisons');return false;">Nos maisons</a></li><li><a href="#" onclick="navigate('tarifs');return false;">Tarifs</a></li><li><a href="#" onclick="navigate('contact');return false;">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33660458778">06 60 45 87 78</a></li><li><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li></ul></div>
+    </div>
+    <div class="footer-bottom narrow"><p>© 2026 La Villa Roméo</p><p>Golfe de Saint-Tropez</p></div>
+  </footer>
+</div>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE : CONTACT                                       ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page" id="page-contact">
+
+  <section class="hero hero-sm">
+    <img class="hero-img" src="https://static.wixstatic.com/media/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg/v1/fill/w_1890,h_600,al_c,q_85/1aeb15_9b9403dbefc64af7a251e68c7a3c2aea~mv2.jpg" alt="Contact La Villa Roméo">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Nous sommes disponibles</p>
+      <h1>Contactez-<em>nous</em></h1>
+      <p class="hero-sub">Notre équipe vous répond sous 24 heures pour toute demande de réservation ou de renseignement.</p>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white);">
+    <div class="narrow contact-grid">
+      <!-- Info -->
+      <div class="contact-info reveal">
+        <p class="label">Nous joindre</p>
+        <h2 class="heading">Votre séjour,<br>notre <em>priorité</em></h2>
+        <p class="desc" style="margin-bottom:0;">Que ce soit pour une demande de réservation, une question sur nos hébergements ou un service particulier, nous sommes à votre écoute.</p>
+
+        <div class="contact-info-block">
+          <div class="ci-item">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+            <div><div class="ci-label">Téléphone</div><div class="ci-value"><a href="tel:+33660458778">+33 (0)6 60 45 87 78</a></div></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><div class="ci-label">Email</div><div class="ci-value"><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></div></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+            <div><div class="ci-label">Adresse</div><div class="ci-value">81 chemin des Aoucellouns<br>83120 Sainte-Maxime, Var</div></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div><div class="ci-label">Réponse garantie</div><div class="ci-value">Sous 24 heures ouvrables</div></div>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div style="margin-top:40px;">
+          <p class="label">Nos réseaux</p>
+          <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+            <a href="https://www.instagram.com/lavillaromeo" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; padding:10px 18px; background:var(--sand); border-radius:var(--r-xl); font-size:13px; color:var(--ink); transition:background var(--ease);" onmouseover="this.style.background='var(--sand-mid)'" onmouseout="this.style.background='var(--sand)'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              Instagram
+            </a>
+            <a href="https://www.facebook.com/lavillaromeosaintemaxime" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; padding:10px 18px; background:var(--sand); border-radius:var(--r-xl); font-size:13px; color:var(--ink); transition:background var(--ease);" onmouseover="this.style.background='var(--sand-mid)'" onmouseout="this.style.background='var(--sand)'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-wrap reveal">
+        <div id="form-content">
+          <p class="label" style="margin-bottom:6px;">Formulaire de contact</p>
+          <h3 style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; margin-bottom:28px; color:var(--ink);">Envoyer une demande</h3>
+          <div class="form-grid" id="contact-form">
+            <div class="field-group">
+              <label for="f-prenom">Prénom *</label>
+              <input type="text" id="f-prenom" placeholder="Marie" required autocomplete="given-name">
+            </div>
+            <div class="field-group">
+              <label for="f-nom">Nom *</label>
+              <input type="text" id="f-nom" placeholder="Dupont" required autocomplete="family-name">
+            </div>
+            <div class="field-group">
+              <label for="f-email">Email *</label>
+              <input type="email" id="f-email" placeholder="marie@exemple.fr" required autocomplete="email">
+            </div>
+            <div class="field-group">
+              <label for="f-tel">Téléphone</label>
+              <input type="tel" id="f-tel" placeholder="+33 6 00 00 00 00" autocomplete="tel">
+            </div>
+            <div class="field-group">
+              <label for="f-villa">Hébergement souhaité</label>
+              <select id="f-villa">
+                <option value="">Indifférent / à définir</option>
+                <option>Villa Bleue</option>
+                <option>Villa Jaune</option>
+                <option>Villa Rose</option>
+                <option>Villa Verte</option>
+                <option>Cottage Juliette</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="f-pers">Nombre de personnes</label>
+              <select id="f-pers">
+                <option>1–2 personnes</option>
+                <option>3–4 personnes</option>
+                <option>5–6 personnes</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="f-arrivee">Date d'arrivée souhaitée</label>
+              <input type="date" id="f-arrivee">
+            </div>
+            <div class="field-group">
+              <label for="f-depart">Date de départ souhaitée</label>
+              <input type="date" id="f-depart">
+            </div>
+            <div class="field-group form-full">
+              <label for="f-msg">Message *</label>
+              <textarea id="f-msg" placeholder="Décrivez votre projet de séjour, vos demandes particulières..." required></textarea>
+            </div>
+            <div class="form-full">
+              <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="submitForm()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                Envoyer ma demande
+              </button>
+              <p style="font-size:12px; color:var(--mist); margin-top:12px; text-align:center;">Réponse sous 24h · Données confidentielles</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-success" id="form-success">
+          <div class="form-success-icon">✅</div>
+          <h3>Message envoyé !</h3>
+          <p>Merci pour votre demande.<br>Notre équipe vous contactera dans les 24 heures.</p>
+          <button class="btn btn-primary" style="margin-top:24px;" onclick="resetForm()">Nouvelle demande</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP embed placeholder -->
+  <div style="width:100%; height:360px; background:var(--sand-mid); position:relative; overflow:hidden;">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2892.5!2d6.6!3d43.32!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12c97f5b6e40b5a3%3A0x0!2s81+Chemin+des+Aoucellouns%2C+83120+Sainte-Maxime!5e0!3m2!1sfr!2sfr!4v1"
+      width="100%" height="100%" style="border:0; filter:sepia(20%) contrast(90%);" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Localisation La Villa Roméo"></iframe>
+    <div style="position:absolute; top:20px; left:50%; transform:translateX(-50%); background:var(--white); padding:10px 20px; border-radius:var(--r-xl); font-size:13px; font-weight:400; color:var(--ink); box-shadow:0 4px 16px rgba(28,22,18,0.12); white-space:nowrap;">
+      📍 81 ch. des Aoucellouns, 83120 Sainte-Maxime
+    </div>
+  </div>
+
+  <footer>
+    <div class="narrow footer-grid">
+      <div class="footer-brand"><div class="brand-name">La Villa Roméo</div><div class="brand-sub">Sainte-Maxime · Var · France</div><p class="footer-tagline">« Cinq havres de paix »</p></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#" onclick="navigate('home');return false;">Accueil</a></li><li><a href="#" onclick="navigate('maisons');return false;">Nos maisons</a></li><li><a href="#" onclick="navigate('tarifs');return false;">Tarifs</a></li><li><a href="#" onclick="navigate('explorer');return false;">Explorer</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33660458778">06 60 45 87 78</a></li><li><a href="mailto:info@lavillaromeo.fr">info@lavillaromeo.fr</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li></ul></div>
+    </div>
+    <div class="footer-bottom narrow"><p>© 2026 La Villa Roméo</p><p>Golfe de Saint-Tropez</p></div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+/* ── Router ── */
+const pages = ['home','maisons','services','tarifs','explorer','contact'];
+let current = 'home';
+
+function navigate(pageId) {
+  if (pageId === current) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  const curtain = document.getElementById('curtain');
+  curtain.classList.add('active');
+  setTimeout(() => {
+    document.getElementById('page-' + current).classList.remove('active');
+    document.getElementById('page-' + pageId).classList.add('active');
+    current = pageId;
+    updateNav();
+    window.scrollTo({ top: 0 });
+    curtain.classList.remove('active');
+    initReveals();
+    initVillaTabs();
+  }, 220);
+}
+
+function updateNav() {
+  document.querySelectorAll('[data-page]').forEach(el => {
+    el.classList.toggle('active', el.dataset.page === current);
+  });
+}
+
+/* ── Burger ── */
+const burger = document.getElementById('burger');
+const drawer = document.getElementById('drawer');
+burger.addEventListener('click', () => {
+  const open = burger.classList.toggle('open');
+  drawer.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+function closeDrawer() {
+  burger.classList.remove('open');
+  drawer.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+/* ── Nav scroll ── */
+const mainNav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ── Scroll Reveal ── */
+function initReveals() {
+  const els = document.querySelectorAll('#page-' + current + ' .reveal:not(.visible)');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 70);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  els.forEach(el => io.observe(el));
+}
+
+/* ── Villa Tabs (Tarifs page) ── */
+function initVillaTabs() {
+  const tabs = document.querySelectorAll('#page-' + current + ' .villa-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.target;
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      document.querySelectorAll('#page-' + current + ' .villa-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      const panel = document.getElementById('tp-' + target);
+      if (panel) panel.classList.add('active');
+    });
+  });
+}
+
+/* ── Contact Form ── */
+function submitForm() {
+  const required = ['f-prenom','f-nom','f-email','f-msg'];
+  let valid = true;
+  required.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.style.borderColor = 'var(--terracotta)'; valid = false; }
+    else { el.style.borderColor = 'transparent'; }
+  });
+  if (!valid) return;
+  document.getElementById('form-content').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+function resetForm() {
+  ['f-prenom','f-nom','f-email','f-tel','f-msg'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('form-content').style.display = 'block';
+  document.getElementById('form-success').style.display = 'none';
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  initReveals();
+  initVillaTabs();
+});
+</script>
+</body>
+</html>
